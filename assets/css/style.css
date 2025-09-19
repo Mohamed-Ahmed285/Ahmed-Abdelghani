@@ -2129,3 +2129,52 @@ textarea.form-input::-webkit-resizer {
   }
 
 }
+
+
+
+/*-----------------------------------*\
+
+  #DOWNLOAD BTN
+
+\*-----------------------------------*/
+
+.download-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--orange-yellow-crayola);
+  font-size: var(--fs-6);
+  font-weight: var(--fw-500);
+  text-decoration: none;
+  padding: 12px 16px;
+  border: 1px solid var(--jet);
+  border-radius: 8px;
+  background: var(--border-gradient-onyx);
+  box-shadow: var(--shadow-1);
+  z-index: 1;
+  transition: var(--transition-1);
+}
+
+.download-btn::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  background: var(--bg-gradient-jet);
+  border-radius: inherit;
+  z-index: -1;
+  transition: var(--transition-1);
+}
+
+.download-btn:hover {
+  background: var(--bg-gradient-yellow-1);
+}
+
+.download-btn:hover::before {
+  background: var(--bg-gradient-yellow-2);
+}
+
+.download-btn ion-icon {
+  font-size: 18px;
+}
