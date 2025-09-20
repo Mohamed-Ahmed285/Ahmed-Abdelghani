@@ -49,9 +49,44 @@ for (let i = 0; i < testimonialsItem.length; i++) {
 
 }
 
+
 // add click event to modal close button
 modalCloseBtn.addEventListener("click", testimonialsModalFunc);
 overlay.addEventListener("click", testimonialsModalFunc);
+
+
+
+// Certificate modal variables
+const certModalContainer = document.querySelector("[data-cert-modal-container]");
+const certModalCloseBtn = document.querySelector("[data-cert-modal-close-btn]");
+const certModalImg = document.querySelector("[data-cert-modal-img]");
+const certModalTitle = document.querySelector("[data-cert-modal-title]");
+const certImages = document.querySelectorAll("[data-cert-image]");
+const certOverlay = document.querySelector("[data-cert-overlay]");
+
+function openCertModal(imgSrc, imgAlt, title) {
+  certModalImg.src = imgSrc;
+  certModalImg.alt = imgAlt;
+  certModalTitle.textContent = title;
+  certModalContainer.classList.add("active");
+  certOverlay.classList.add("active");
+}
+
+function closeCertModal() {
+  certModalContainer.classList.remove("active");
+  certOverlay.classList.remove("active");
+}
+
+certImages.forEach(certImage => {
+  certImage.addEventListener("click", function () {
+    const img = certImage.querySelector("img");
+    const title = certImage.parentElement.querySelector(".certification-title").textContent;
+    openCertModal(img.src, img.alt, title);
+  });
+});
+
+certModalCloseBtn.addEventListener("click", closeCertModal);
+certOverlay.addEventListener("click", closeCertModal);
 
 
 
@@ -141,7 +176,6 @@ const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
 
 // add event to all nav link
-// ...existing code...
 for (let i = 0; i < navigationLinks.length; i++) {
   navigationLinks[i].addEventListener("click", function () {
     const navLinkValue = this.dataset.navLink;
@@ -167,4 +201,3 @@ for (let i = 0; i < navigationLinks.length; i++) {
     }
   });
 }
-// ...existing code...
