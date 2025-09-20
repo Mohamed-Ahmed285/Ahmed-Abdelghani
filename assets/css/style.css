@@ -324,7 +324,7 @@ main {
 }
 
 .sidebar.active {
-  max-height: 430px;
+  max-height: 510px;
 }
 
 .sidebar-info {
@@ -630,7 +630,7 @@ main {
   border-radius: 14px;
   box-shadow: var(--shadow-1);
   padding: 11px 34px;
-  color: white;
+  color: var(--vegas-gold);
   font-size: xx-large;
   align-items: center;
   font-weight: 600;

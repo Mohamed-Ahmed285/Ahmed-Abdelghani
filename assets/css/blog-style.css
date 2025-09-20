@@ -97,7 +97,7 @@
     position: relative;
 }
 
-.blog-post-content p {
+.blog-post-text {
     margin-bottom: 1rem;
     line-height: 1.6;
     font-size: 1rem;
@@ -111,6 +111,14 @@
     align-items: center;
     gap: 0.5rem;
 }
+
+.blog-post-meta .dot {
+    background: var(--light-gray-70);
+    width: 4px;
+    height: 4px;
+    border-radius: 4px;
+}
+
 
 .back-btn {
     display: inline-flex;
