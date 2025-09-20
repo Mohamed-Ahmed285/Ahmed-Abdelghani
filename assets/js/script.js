@@ -141,29 +141,30 @@ const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
 
 // add event to all nav link
+// ...existing code...
 for (let i = 0; i < navigationLinks.length; i++) {
   navigationLinks[i].addEventListener("click", function () {
-
-    // Check if this is a blog post link with data-nav-link attribute
     const navLinkValue = this.dataset.navLink;
+    let targetPage = navLinkValue || this.innerHTML.toLowerCase();
 
+    // Show the correct page
     for (let j = 0; j < pages.length; j++) {
-      let targetPage = navLinkValue || this.innerHTML.toLowerCase();
-
       if (targetPage === pages[j].dataset.page) {
         pages[j].classList.add("active");
-        // Only add active class to navbar links, not blog post links
-        if (!navLinkValue || !navLinkValue.startsWith('blog-')) {
-          navigationLinks[j].classList.add("active");
-        }
         window.scrollTo(0, 0);
       } else {
         pages[j].classList.remove("active");
-        if (!navLinkValue || !navLinkValue.startsWith('blog-')) {
-          navigationLinks[j].classList.remove("active");
-        }
       }
     }
 
+    // Only update .navbar-link active state for main navbar
+    if (!navLinkValue || !navLinkValue.startsWith('blog-')) {
+      document.querySelectorAll('.navbar-link').forEach(link => link.classList.remove('active'));
+      // Add active to the clicked navbar link
+      if (this.classList.contains('navbar-link')) {
+        this.classList.add('active');
+      }
+    }
   });
 }
+// ...existing code...
