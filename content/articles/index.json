@@ -1,18 +1,16 @@
 [
   {
+    "slug": "mido",
+    "title": "mido",
+    "date": "2026-01-20T15:23:00.000+02:00",
+    "image": "/assets/images/uploads/blog-2.jpg",
+    "excerpt": "mohamed is happy mido welcomes u all to this website and wishes u all happy day."
+  },
+  {
     "slug": "welcome",
     "title": "Welcome",
     "date": "2026-01-20",
-    "image": "/assets/images/uploads/blog-2.jpg",
-    "excerpt": "A first article to confirm the CMS + frontend rendering pipeline works."
-  },
-   {
-    "slug": "mido",
-    "title": "mido",
-    "date": "2026-01-20",
-    "image": "/assets/images/uploads/blog-2.jpg",
-    "excerpt": "bla bla bla"
+    "image": "/assets/images/blog-1.jpg",
+    "excerpt": "This is a sample article stored in content/articles/. You can edit or create more articles via Decap CMS at /admin/. What you can write Mar…"
   }
 ]
-
-
