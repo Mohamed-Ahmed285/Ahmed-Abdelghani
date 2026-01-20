@@ -119,6 +119,18 @@
     border-radius: 4px;
 }
 
+/* RTL article support */
+.blog-post[dir="rtl"],
+.rtl-article {
+    direction: rtl;
+    text-align: right;
+}
+
+.blog-post[dir="rtl"] .blog-post-meta,
+.rtl-article .blog-post-meta {
+    justify-content: flex-end;
+}
+
 
 .back-btn {
     display: inline-flex;

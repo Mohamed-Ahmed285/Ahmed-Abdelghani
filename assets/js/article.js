@@ -57,6 +57,34 @@ async function loadArticle() {
     const title = attributes.title || slug;
     const dateLabel = formatDateLabel(attributes.date);
 
+    // RTL support: if frontmatter has rtl: true (or direction: rtl / lang: ar),
+    // render the article in right-to-left mode.
+    const isRtl =
+      String(attributes.rtl || '').toLowerCase() === 'true' ||
+      String(attributes.direction || '').toLowerCase() === 'rtl' ||
+      String(attributes.lang || '').toLowerCase().startsWith('ar');
+
+    const articleEl = document.querySelector('article.blog-post');
+    if (articleEl) {
+      articleEl.setAttribute('dir', isRtl ? 'rtl' : 'ltr');
+      if (isRtl) {
+        articleEl.classList.add('rtl-article');
+      } else {
+        articleEl.classList.remove('rtl-article');
+      }
+    }
+
+    if (isRtl) {
+      document.documentElement.setAttribute('dir', 'rtl');
+      if (attributes.lang) {
+        document.documentElement.setAttribute('lang', attributes.lang);
+      } else {
+        document.documentElement.setAttribute('lang', 'ar');
+      }
+    } else {
+      document.documentElement.setAttribute('dir', 'ltr');
+    }
+
     document.title = `${title} | Article`;
     titleEl.textContent = title;
     metaEl.innerHTML = dateLabel ? `<time datetime="${attributes.date || ''}">${dateLabel}</time>` : '';

@@ -5,11 +5,66 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin | Articles</title>
+  <style>
+    /* RTL typing support in Decap CMS editor (toggles when the entry "rtl" field is checked) */
+    body.rtl-entry .CodeMirror,
+    body.rtl-entry .CodeMirror pre,
+    body.rtl-entry [data-testid="wysiwyg-editor"],
+    body.rtl-entry textarea {
+      direction: rtl !important;
+      text-align: right !important;
+      unicode-bidi: plaintext;
+    }
+
+    /* Preview pane (when Decap renders markdown preview) */
+    body.rtl-entry .nc-previewPane,
+    body.rtl-entry .nc-previewPane * {
+      direction: rtl;
+      text-align: right;
+    }
+  </style>
 </head>
 
 <body>
   <!-- Decap CMS must live under /admin for Cloudflare Zero Trust path protection -->
   <script src="https://unpkg.com/decap-cms@latest/dist/decap-cms.js"></script>
+  <script>
+    (function () {
+      function findRtlInput() {
+        // Decap CMS renders inputs dynamically; try a few common selectors.
+        return (
+          document.querySelector('input[name="rtl"][type="checkbox"]') ||
+          document.querySelector('input[id$="rtl"][type="checkbox"]') ||
+          document.querySelector('input[type="checkbox"][aria-label*="Right-to-left"]')
+        );
+      }
+
+      function setRtlClass(isRtl) {
+        document.body.classList.toggle('rtl-entry', !!isRtl);
+      }
+
+      function wire() {
+        const rtlInput = findRtlInput();
+        if (!rtlInput) return false;
+
+        const update = () => setRtlClass(rtlInput.checked);
+        rtlInput.addEventListener('change', update);
+        update();
+        return true;
+      }
+
+      // Keep trying until the editor UI is mounted.
+      const start = Date.now();
+      const timer = setInterval(() => {
+        if (wire()) {
+          clearInterval(timer);
+          return;
+        }
+        // stop after ~30s
+        if (Date.now() - start > 30000) clearInterval(timer);
+      }, 300);
+    })();
+  </script>
 </body>
 
 </html>

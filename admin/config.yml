@@ -29,6 +29,13 @@ collections:
           required: false,
         }
       - {
+          label: "Right-to-left (Arabic)?",
+          name: "rtl",
+          widget: "boolean",
+          required: false,
+          default: false,
+        }
+      - {
           label: "Excerpt (shown on Articles list)",
           name: "excerpt",
           widget: "text",
