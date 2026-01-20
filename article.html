@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Article</title>
+
+    <link rel="shortcut icon" href="./assets/images/logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/blog-style.css" />
+  </head>
+
+  <body>
+    <main>
+      <article class="blog-post active" style="display:block">
+        <button class="back-btn top-left" id="backToArticles" style="position: relative; padding: 0.5rem;">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+          Back
+        </button>
+
+        <header>
+          <h2 class="h2 article-title" id="articleTitle">Loading…</h2>
+        </header>
+
+        <section class="blog-post-content">
+          <div class="blog-post-meta" id="articleMeta"></div>
+          <div class="blog-post-text" id="articleBody"></div>
+        </section>
+      </article>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="./assets/js/article.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>
+
+

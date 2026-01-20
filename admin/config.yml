@@ -1,0 +1,31 @@
+backend:
+  name: github
+  # Replace with your actual GitHub repository (e.g., ahmed/portfolio-site)
+  repo: Mohamed-Ahmed285/Ahmed-Abdelghani
+  branch: main
+  # Replace with the URL of the Auth Worker you deployed on Cloudflare
+  base_url: https://dark-disk-3b4c.mohamed-ahmed-abdelghani6.workers.dev
+  site_domain: ahmed-abdelghany.pages.dev
+
+# These folders must exist in your GitHub repository
+media_folder: "assets/images/uploads"
+public_folder: "/assets/images/uploads"
+
+collections:
+  - name: "articles"
+    label: "Articles"
+    folder: "content/articles"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "yaml-frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - {
+          label: "Featured Image",
+          name: "image",
+          widget: "image",
+          required: false,
+        }
+      - { label: "Body Content", name: "body", widget: "markdown" }

@@ -175,6 +175,111 @@ for (let i = 0; i < formInputs.length; i++) {
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
 
+// Articles (CMS content) rendering
+let articlesLoaded = false;
+
+function escapeHtml(str = "") {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function formatDateLabel(dateStr) {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  if (Number.isNaN(d.getTime())) return String(dateStr);
+  return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+}
+
+function normalizeImagePath(path) {
+  if (!path) return "";
+  // allow absolute URLs + root-relative URLs
+  if (/^https?:\/\//i.test(path) || path.startsWith("/")) return path;
+  // Decap often stores media as relative paths
+  if (path.startsWith("./")) return path.slice(1);
+  return `/${path}`;
+}
+
+function renderArticlesList(items) {
+  const listEl = document.getElementById("articles-list");
+  if (!listEl) return;
+
+  if (!Array.isArray(items) || items.length === 0) {
+    listEl.innerHTML = `
+      <li class="blog-post-item">
+        <div class="cont">
+          <div class="blog-content">
+            <h3 class="h3 blog-item-title">No articles yet</h3>
+            <p class="blog-text">Check back soon.</p>
+          </div>
+        </div>
+      </li>
+    `;
+    return;
+  }
+
+  const sorted = [...items].sort((a, b) => new Date(b?.date || 0) - new Date(a?.date || 0));
+
+  listEl.innerHTML = sorted.map((a) => {
+    const slug = a?.slug || "";
+    const title = a?.title || "Untitled";
+    const dateLabel = formatDateLabel(a?.date);
+    const image = normalizeImagePath(a?.image);
+    const excerpt = a?.excerpt || a?.description || "";
+
+    // Use existing blog-post-item styling (same structure as Projects)
+    return `
+      <li class="blog-post-item">
+        <a href="./article.html?slug=${encodeURIComponent(slug)}">
+          ${image ? `
+            <figure class="blog-banner-box">
+              <img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" loading="lazy">
+            </figure>
+          ` : ""}
+
+          <div class="blog-content">
+            <div class="blog-meta">
+              ${dateLabel ? `<time datetime="${escapeHtml(a?.date || "")}">${escapeHtml(dateLabel)}</time>` : ""}
+            </div>
+            <h3 class="h3 blog-item-title">${escapeHtml(title)}</h3>
+            ${excerpt ? `<p class="blog-text">${escapeHtml(excerpt)}</p>` : ""}
+          </div>
+        </a>
+      </li>
+    `;
+  }).join("");
+}
+
+async function loadArticlesOnce() {
+  if (articlesLoaded) return;
+  articlesLoaded = true;
+
+  try {
+    // NOTE: Static hosting cannot list directories. We use a manifest file.
+    const res = await fetch("/content/articles/index.json", { cache: "no-store" });
+    if (!res.ok) throw new Error(`Failed to load /content/articles/index.json (${res.status})`);
+    const items = await res.json();
+    renderArticlesList(items);
+  } catch (err) {
+    const listEl = document.getElementById("articles-list");
+    if (!listEl) return;
+    listEl.innerHTML = `
+      <li class="blog-post-item">
+        <div class="cont">
+          <div class="blog-content">
+            <h3 class="h3 blog-item-title">Couldn’t load articles</h3>
+            <p class="blog-text">Please ensure <strong>/content/articles/index.json</strong> exists.</p>
+          </div>
+        </div>
+      </li>
+    `;
+    console.error(err);
+  }
+}
+
 // add event to all nav link
 for (let i = 0; i < navigationLinks.length; i++) {
   navigationLinks[i].addEventListener("click", function () {
@@ -189,6 +294,10 @@ for (let i = 0; i < navigationLinks.length; i++) {
       } else {
         pages[j].classList.remove("active");
       }
+    }
+
+    if (targetPage === "articles") {
+      loadArticlesOnce();
     }
 
     // Only update .navbar-link active state for main navbar
