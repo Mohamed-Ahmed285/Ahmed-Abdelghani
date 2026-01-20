@@ -5,7 +5,7 @@
     "date": "2026-01-20",
     "image": "/assets/images/blog-1.jpg",
     "excerpt": "A first article to confirm the CMS + frontend rendering pipeline works."
-  }
+  },
    {
     "slug": "mido",
     "title": "mido",
