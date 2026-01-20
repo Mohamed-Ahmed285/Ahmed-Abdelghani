@@ -28,4 +28,10 @@ collections:
           widget: "image",
           required: false,
         }
+      - {
+          label: "Excerpt (shown on Articles list)",
+          name: "excerpt",
+          widget: "text",
+          required: false,
+        }
       - { label: "Body Content", name: "body", widget: "markdown" }
