@@ -89,8 +89,20 @@ async function loadArticle() {
     titleEl.textContent = title;
     metaEl.innerHTML = dateLabel ? `<time datetime="${attributes.date || ''}">${dateLabel}</time>` : '';
 
+    // Update Open Graph meta tags for social sharing
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', title);
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', window.location.href);
+
     // marked is loaded globally from CDN
     bodyEl.innerHTML = (window.marked ? window.marked.parse(body) : body);
+
+    // Update og:description with first paragraph
+    const firstPara = bodyEl.querySelector('p')?.textContent || title;
+    const description = firstPara.length > 150 ? firstPara.substring(0, 150) + '...' : firstPara;
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', description);
   } catch (err) {
     titleEl.textContent = 'Couldn’t load article';
     bodyEl.textContent = 'Please check that the file exists under /content/articles/.';
